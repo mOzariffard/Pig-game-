@@ -33,7 +33,7 @@ const init = function () {
 };
 
 init(); //Call this function ;
-// close the modal when the game is done 
+
 btnCloseModal.addEventListener("click", function () {
   modal.classList.add("hidden");
   overlay.classList.add("hidden");
@@ -75,7 +75,7 @@ btnHold.addEventListener("click", function () {
     document.getElementById(`score--${activePlayer}`).textContent =
       scores[activePlayer];
     // 2. check if player's score is >=100
-    if (scores[activePlayer] >= 100) {
+    if (scores[activePlayer] >= 20) {
       playing = false;
       // Finish the Game
       diceEl.classList.add("hidden");
