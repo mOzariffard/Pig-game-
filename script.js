@@ -8,6 +8,10 @@ const current1El = document.querySelector("#current--1");
 const btnNew = document.querySelector(".btn--new");
 const btnRoll = document.querySelector(".btn--roll");
 const btnHold = document.querySelector(".btn--hold");
+const modal = document.querySelector(".modal");
+const overlay = document.querySelector(".overlay");
+const btnCloseModal = document.querySelector(".close-modal");
+const showMessageWinner = document.querySelector(".modal-content");
 
 let currentScore, scores, activePlayer, playing;
 const init = function () {
@@ -29,6 +33,11 @@ const init = function () {
 };
 
 init(); //Call this function ;
+// close the modal when the game is done 
+btnCloseModal.addEventListener("click", function () {
+  modal.classList.add("hidden");
+  overlay.classList.add("hidden");
+});
 
 const switchPlayer = function () {
   document.querySelector(`#current--${activePlayer}`).textContent = 0;
@@ -37,7 +46,6 @@ const switchPlayer = function () {
   player0El.classList.toggle("player--active");
   player1El.classList.toggle("player--active");
 };
-
 btnRoll.addEventListener("click", function () {
   if (playing) {
     //1. Generating the Random Number
@@ -69,19 +77,35 @@ btnHold.addEventListener("click", function () {
     // 2. check if player's score is >=100
     if (scores[activePlayer] >= 100) {
       playing = false;
-      diceEl.classList.add("hidden");
       // Finish the Game
-      document
-        .querySelector(`.player--${activePlayer}`)
-        .classList.add("player--winner");
-      document
-        .querySelector(`.player--${activePlayer}`)
-        .classList.remove("player--active");
+      diceEl.classList.add("hidden");
+      overlay.classList.add("overlay");
+      modal.classList.remove("hidden");
+      overlay.classList.remove("hidden");
+      // styling the winner
+      if (activePlayer === 0) {
+        document
+          .querySelector(`.player--${activePlayer}`)
+          .classList.add("player--winner");
+
+        document
+          .querySelector(`.player--${activePlayer}`)
+          .classList.remove("player--active");
+        // show the winner in modal
+        showMessageWinner.textContent = "Winner of this match : player 1 🎉";
+      } else {
+        document
+          .querySelector(`.player--${activePlayer}`)
+          .classList.add("player--winner");
+        document
+          .querySelector(`.player--${activePlayer}`)
+          .classList.remove("player--active");
+        showMessageWinner.textContent = "Winner of this match : player 2 🎉";
+      }
     } else {
       // 3.Switch to the next Player
       switchPlayer();
     }
   }
 });
-
 btnNew.addEventListener("click", init);
